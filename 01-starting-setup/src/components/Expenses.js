@@ -1,3 +1,4 @@
+import Card from "./Card";
 import ExpenseItem from "./ExpenseItem";
 import './Expenses.css';
 
@@ -12,7 +13,7 @@ function Expenses({expenses}) {
   ));
 
   return (
-    <div className="expenses">{items}</div>
+    <Card className="expenses">{items}</Card>
   )
 }
 
