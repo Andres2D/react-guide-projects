@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './ExpenseForm.css';
 
-const ExpenseForm = () => {
+const ExpenseForm = (props) => {
   const [form, setForm] = useState({
     enteredTitle: '',
     enteredAmount: '',
@@ -28,12 +28,12 @@ const ExpenseForm = () => {
 
   const sumbitHandler = (ev) => {
     ev.preventDefault();
-    console.log(form);
     setForm({
       enteredTitle: '',
       enteredAmount: '',
       enteredDate: ''
     });
+    props.onSaveExpenseData(form);
   }
 
   return (
