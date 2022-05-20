@@ -6,7 +6,7 @@ import './Expenses.css';
 
 const Expenses = ({expenses}) => {
 
-  const [year, setYear] = useState('');
+  const [year, setYear] = useState('2020');
 
   const updateYear = (year) => {
     setYear(year);
@@ -24,7 +24,7 @@ const Expenses = ({expenses}) => {
   return (
     <div>
       {year}
-      <ExpensesFilter onChangeYear={updateYear} />
+      <ExpensesFilter year={year} onChangeYear={updateYear} />
       <Card className="expenses">{items}</Card>
     </div>
   )
