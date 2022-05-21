@@ -5,14 +5,15 @@ import ExpenseItem from "./ExpenseItem";
 import './Expenses.css';
 
 const Expenses = ({expenses}) => {
-
   const [year, setYear] = useState('2020');
 
   const updateYear = (year) => {
     setYear(year);
   }
 
-  const items = expenses.map((item) => (
+  const filteredExpenses = expenses.filter(ex => ex.date.getFullYear() === +year); 
+
+  const items = filteredExpenses.map((item) => (
     <ExpenseItem 
       title={item.title}
       amount={item.amount} 
@@ -23,9 +24,14 @@ const Expenses = ({expenses}) => {
 
   return (
     <div>
-      {year}
-      <ExpensesFilter year={year} onChangeYear={updateYear} />
-      <Card className="expenses">{items}</Card>
+      <Card className="expenses">
+        <ExpensesFilter year={year} onChangeYear={updateYear} />
+        {
+          filteredExpenses.length === 0 
+            ? <p>Not expenses found.</p>
+            : items    
+        }
+      </Card>
     </div>
   )
 }
