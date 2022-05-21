@@ -5,7 +5,7 @@ import ExpenseList from "./ExpenseList";
 import './Expenses.css';
 
 const Expenses = ({expenses}) => {
-  const [year, setYear] = useState('2020');
+  const [year, setYear] = useState('2022');
 
   const updateYear = (year) => {
     setYear(year);
