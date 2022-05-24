@@ -1,0 +1,15 @@
+.app {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.btn {
+  float: right;
+  background-color: blueviolet;
+  color: white;
+  font-size: 20px;
+  border: none;
+  cursor: pointer;
+}

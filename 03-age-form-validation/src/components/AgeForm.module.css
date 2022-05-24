@@ -14,4 +14,10 @@
 }
 
 .btn {
+  background-color: blueviolet;
+  border: none;
+  color: white;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 20px;
 }
