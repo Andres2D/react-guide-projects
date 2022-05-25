@@ -1,10 +1,13 @@
+import Card from '../UI/Card';
 import styles from './AgeRecords.module.css';
 
 const AgeRecords = props => {
   return(
-    <div className={styles.record}>
-      <p>{props.user} ({props.age} years old)</p>
-    </div>
+    <Card>
+      <ul style={{listStyle: 'none', padding: '0'}}>
+        {props.users.map(user => <li key={Math.random()} className={styles.record}>{user.name} ({user.age} years old)</li>)} 
+      </ul>
+    </Card>
   )
 }
 
