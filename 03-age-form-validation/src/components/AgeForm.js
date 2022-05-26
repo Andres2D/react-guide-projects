@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useRef, useState} from 'react';
 import Button from '../UI/Butotn';
 import Card from '../UI/Card';
 import Modal from '../UI/Modal';
@@ -7,27 +7,13 @@ import Wrapper from './helpers/Wrapper';
 
 const AgeForm = props => {
 
-  const [userForm, setUserForm] = useState({
-    user: '',
-    age: ''
-  });
+  const nameInputRef = useRef();
+  const ageInputRef = useRef();
 
   const [modal, setModal] = useState({
     open: false,
     message: 'This is the defualt message'
   });
-
-  const userChangeHandler = (evt) => {
-    setUserForm(prevValue => {
-      return {...prevValue, user: evt.target.value}
-    });
-  }
-
-  const ageChangeHandler = (evt) => {
-    setUserForm(prevValue => {
-      return {...prevValue, age: evt.target.value}
-    });
-  }
 
   const closeHandler = () => {
     setModal({
@@ -38,22 +24,26 @@ const AgeForm = props => {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    if(userForm.user.trim().length === 0 || userForm.age.trim().length === 0) {
+    const enteredName = nameInputRef.current.value;
+    const enteredAge = ageInputRef.current.value;
+    if(enteredName.trim().length === 0 || enteredAge.trim().length === 0) {
       setModal({
         open: true,
         message: 'Please enter a valid name and age (non-empty values).'
       });
-    }else if(userForm.age < 1) {
+    }else if(enteredAge < 1) {
       setModal({
         open: true,
         message: 'Please enter a valid age (>0).'
       });
     }else {
+      const userForm = {
+        user: enteredName,
+        age: enteredAge
+      }
       props.onSubmitForm(userForm);
-      setUserForm({
-        user: '',
-        age: ''
-      });
+      nameInputRef.current.value = '';
+      ageInputRef.current.value = '';
     }
   }
 
@@ -68,8 +58,7 @@ const AgeForm = props => {
                 id='userName'
                 className={styles.input} 
                 type='text'
-                value={userForm.user}
-                onChange={userChangeHandler} 
+                ref={nameInputRef}
                 />
             </div>
             <div className={styles['form-control']}>
@@ -78,8 +67,7 @@ const AgeForm = props => {
                 id='age'
                 className={styles.input} 
                 type='number' 
-                value={userForm.age}
-                onChange={ageChangeHandler}
+                ref={ageInputRef}
                 />
             </div>
             <Button
