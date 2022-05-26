@@ -11,13 +11,15 @@ const App = () => {
   }
 
   return (
-    <div className={styles.app}>
-      <AgeForm onSubmitForm={formHandler} />
-      {
-        users.length > 0 &&
-        <AgeRecords users={users} />
-      }
-    </div>
+    <>
+      <div className={styles.app}>
+        <AgeForm onSubmitForm={formHandler} />
+        {
+          users.length > 0 &&
+          <AgeRecords users={users} />
+        }
+      </div>
+    </>
   );
 }
 

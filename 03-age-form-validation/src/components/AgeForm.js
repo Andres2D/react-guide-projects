@@ -3,6 +3,7 @@ import Button from '../UI/Butotn';
 import Card from '../UI/Card';
 import Modal from '../UI/Modal';
 import styles from './AgeForm.module.css';
+import Wrapper from './helpers/Wrapper';
 
 const AgeForm = props => {
 
@@ -57,49 +58,51 @@ const AgeForm = props => {
   }
 
   return (
-    <div className={styles.wrapper}>
-      <Card>
-        <form onSubmit={handleSubmit}>
-          <div className={styles['form-control']}>
-            <label htmlFor='userName' className={styles.label}>Username</label>
-            <input 
-              id='userName'
-              className={styles.input} 
-              type='text'
-              value={userForm.user}
-              onChange={userChangeHandler} 
-              />
-          </div>
-          <div className={styles['form-control']}>
-            <label htmlFor='age' className={styles.label}>Age (Years)</label>
-            <input 
-              id='age'
-              className={styles.input} 
-              type='number' 
-              value={userForm.age}
-              onChange={ageChangeHandler}
-              />
-          </div>
-          <Button
-            onClick={handleSubmit}
-            type='submit'>
-              Add User
-          </Button>
-        </form>
-      </Card>
-      {
-        modal.open && 
-        <Modal
-          onCloseModal={closeHandler}>
-          <h3>{modal.message}</h3>  
-          <Button
-            className={styles.btn}
-            onClick={closeHandler}>
-              Okay
-          </Button>
-        </Modal>
-      }
-    </div>
+    <Wrapper>
+      <div className={styles.wrapper}>
+        <Card>
+          <form onSubmit={handleSubmit}>
+            <div className={styles['form-control']}>
+              <label htmlFor='userName' className={styles.label}>Username</label>
+              <input 
+                id='userName'
+                className={styles.input} 
+                type='text'
+                value={userForm.user}
+                onChange={userChangeHandler} 
+                />
+            </div>
+            <div className={styles['form-control']}>
+              <label htmlFor='age' className={styles.label}>Age (Years)</label>
+              <input 
+                id='age'
+                className={styles.input} 
+                type='number' 
+                value={userForm.age}
+                onChange={ageChangeHandler}
+                />
+            </div>
+            <Button
+              onClick={handleSubmit}
+              type='submit'>
+                Add User
+            </Button>
+          </form>
+        </Card>
+        {
+          modal.open && 
+          <Modal
+            onCloseModal={closeHandler}>
+            <h3>{modal.message}</h3>  
+            <Button
+              className={styles.btn}
+              onClick={closeHandler}>
+                Okay
+            </Button>
+          </Modal>
+        }
+      </div>
+    </Wrapper>
   )
 }
 
