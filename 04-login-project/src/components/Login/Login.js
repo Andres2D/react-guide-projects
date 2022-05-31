@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState, useReducer, useEffect } from 'react';
 
 import Card from '../UI/Card/Card';
 import classes from './Login.module.css';
@@ -38,28 +38,14 @@ const passwordReducer = (state, action) => {
   };
 };
 
+
+
 const Login = (props) => {
   // const [enteredEmail, setEnteredEmail] = useState('');
   // const [emailIsValid, setEmailIsValid] = useState();
   // const [enteredPassword, setEnteredPassword] = useState('');
   // const [passwordIsValid, setPasswordIsValid] = useState();
   const [formIsValid, setFormIsValid] = useState(false);
-
-  // useEffect(() => {
-  //   // debounce time input handler
-  //   const handler = setTimeout(() => {
-  //     console.log('asd');
-  //     setFormIsValid(
-  //       enteredEmail.includes('@') && enteredPassword.trim().length > 6
-  //     );
-  //   }, 500);
-    
-  //   return () => {
-  //     clearTimeout(handler);
-  //   };
-  // }, [enteredEmail, enteredPassword]);
-
-
 
   const [emailState, dispatchEmail] = useReducer(emailReducer, {
     value: '',
@@ -71,18 +57,35 @@ const Login = (props) => {
     isValid: null
   });
 
+  const { isValid: emailIsValid } = emailState;
+  const { isValid: passwordIsValid } = passwordState;
+
+  useEffect(() => {
+    // debounce time input handler
+    const handler = setTimeout(() => {
+      setFormIsValid(
+        emailIsValid && passwordIsValid
+      );
+    }, 500);
+    
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [emailIsValid, passwordIsValid]);
+
+
   const emailChangeHandler = (event) => {
     dispatchEmail({type: 'USER_INPUT', val: event.target.value});
-    setFormIsValid(
-      event.target.value.includes('@') && passwordState.isValid
-    );
+    // setFormIsValid(
+    //   event.target.value.includes('@') && passwordState.isValid
+    // );
   };
 
   const passwordChangeHandler = (event) => {
     dispatchPassword({type: 'USER_INPUT', val: event.target.value});
-    setFormIsValid(
-      emailState.isValid && passwordState.isValid
-    );
+    // setFormIsValid(
+    //   emailState.isValid && passwordState.isValid
+    // );
   };
 
   const validateEmailHandler = () => {
