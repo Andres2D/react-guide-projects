@@ -1,3 +1,4 @@
+import Modal from '../UI/Modal';
 import styles from './Cart.module.css';
 
 const Cart = props => {
@@ -6,23 +7,23 @@ const Cart = props => {
   (
     <ul className={styles['cart-items']}>
       {[{id: 'C1', name: 'Sushi', ammount: 2, price: 12.99}].map(item => {
-        <li>{item.name}</li>
+        return <li key={item.id}>{item.name}</li>
       })}
     </ul>
   );
 
   return (
-    <div>
+    <Modal onClick={props.onToggleModal}>
       {cartItems}
       <div className={styles.total}>
         <span>Total Amount</span>
         <span>35.62</span>
       </div>
       <div className={styles.actions}>
-        <button className={styles['button--alt']}>Close</button>
+        <button onClick={props.onToggleModal}  className={styles['button--alt']}>Close</button>
         <button className={styles.button}>Order</button>
       </div>
-    </div>
+    </Modal>
   )
 };
 
