@@ -6,3 +6,19 @@
 2. use your own ```<Wrapper>``` element returning props.children
 3. use ```<Fragment></Fragment>``` elements 
 4. use short fragement element ```<></>```
+
+## Functional components
+```
+const Product = () => {
+  return <h2>A product!</h2>
+}
+```
+
+## class-based components
+```
+class Product extends Component {
+  render() {
+    return <h2>A product!</h2> 
+  }
+}
+```
