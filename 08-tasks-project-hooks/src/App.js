@@ -1,43 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 
 import Tasks from './components/Tasks/Tasks';
 import NewTask from './components/NewTask/NewTask';
+import useRequest from './hooks/use-request';
 
 function App() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+
+  const transformedTasks = useCallback((tasksObject) => {
+    const loadedTasks = [];
+    for (const taskKey in tasksObject) {
+      loadedTasks.push({ id: taskKey, text: tasksObject[taskKey].text });
+    }
+    setTasks(loadedTasks);
+  }, []);
+
+  const { error, isLoading, sendRequest: fetchTasks } = useRequest(); 
   const [tasks, setTasks] = useState([]);
 
-  const fetchTasks = async (taskText) => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const response = await fetch(
-        'https://react-http-22e9d-default-rtdb.firebaseio.com/tasks.json'
-      );
-
-      if (!response.ok) {
-        throw new Error('Request failed!');
-      }
-
-      const data = await response.json();
-
-      const loadedTasks = [];
-
-      for (const taskKey in data) {
-        loadedTasks.push({ id: taskKey, text: data[taskKey].text });
-      }
-
-      setTasks(loadedTasks);
-    } catch (err) {
-      setError(err.message || 'Something went wrong!');
-    }
-    setIsLoading(false);
-  };
-
   useEffect(() => {
-    fetchTasks();
-  }, []);
+    fetchTasks({
+      url: 'https://react-http-22e9d-default-rtdb.firebaseio.com/tasks.json'
+    }, transformedTasks);
+  }, [fetchTasks, transformedTasks]);
 
   const taskAddHandler = (task) => {
     setTasks((prevTasks) => prevTasks.concat(task));
