@@ -5,7 +5,6 @@ import Meals from "./components/Meals/Meals";
 import CartProvider from "./store/CartProvider";
 
 const App = () => {
-
   const [cartModal, setCartModal] = useState(false);
 
   const toggleCartModal = () => {
@@ -17,7 +16,7 @@ const App = () => {
       {cartModal && <Cart onToggleModal={toggleCartModal} />}
       <Header onToggleModal={toggleCartModal} />
       <main>
-        <Meals />
+        <Meals /> 
       </main>
     </CartProvider>
   );
