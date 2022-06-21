@@ -19,7 +19,7 @@ const AvailableMeals = props => {
   useEffect(() => {
     fetchMeals(
       {
-        url: 'https://react-http-22e9d-default-rtdb.firebaseio.com/meals'
+        url: 'https://react-http-22e9d-default-rtdb.firebaseio.com/meals.json'
       }, getMeals);
   }, [fetchMeals, getMeals]);
 
