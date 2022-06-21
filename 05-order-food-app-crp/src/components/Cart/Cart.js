@@ -9,8 +9,8 @@ import useRequest from '../../hooks/use-request';
 const Cart = props => {
 
   const [isCheckout, setIsCheckout] = useState(false);
-  
-  const { sendRequest: postOrder } = useRequest()
+  const [didSubmit, setDidSubmit] = useState(false);
+  const { sendRequest: postOrder, isLoading: isSubmitting } = useRequest()
 
   const cartCtx = useContext(CartContext);
   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
@@ -29,7 +29,6 @@ const Cart = props => {
   }
 
   const submitOrderHandler = async(userData) => {
-    console.log(userData);
     postOrder({
       url: 'https://react-http-22e9d-default-rtdb.firebaseio.com/orders.json',
       method: 'POST',
@@ -40,7 +39,8 @@ const Cart = props => {
         user: userData,
         orderItems: cartCtx.items
       })
-    }, () => {})
+    }, () => setDidSubmit(true));
+    cartCtx.clearCart();
   }
 
   const cartItems = 
@@ -68,8 +68,8 @@ const Cart = props => {
     </div>
   );
 
-  return (
-    <Modal onClick={props.onToggleModal}>
+  const cartModalContent = (
+    <>
       {cartItems}
       <div className={styles.total}>
         <span>Total Amount</span>
@@ -77,6 +77,27 @@ const Cart = props => {
       </div>
       { isCheckout && <Checkout onConfirm={submitOrderHandler} onCancel={props.onToggleModal} /> }
       { !isCheckout && modalActions }
+    </>
+  );
+
+  const isSubmittinModalContent = (
+      <p>Sending order data...</p>
+  );
+
+  const didSubmitModalContent = (
+    <>
+      <p>Successfully sent the order!</p>
+      <div className={styles.actions}>
+        <button onClick={props.onToggleModal}  className={styles['button--alt']}>Close</button>
+      </div>
+    </>
+  );
+
+  return (
+    <Modal onClick={props.onToggleModal}>
+      {!isSubmitting && !didSubmit && cartModalContent}
+      {isSubmitting && isSubmittinModalContent}
+      {didSubmit && didSubmit && didSubmitModalContent}
     </Modal>
   )
 };
