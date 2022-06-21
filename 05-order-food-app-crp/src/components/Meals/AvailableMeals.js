@@ -12,18 +12,32 @@ const AvailableMeals = props => {
     if(!meals) {
       return;
     }
-    console.log(Object.values(meals));
     setMeals(Object.values(meals));
   }, []);
 
-  const {sendRequest: fetchMeals, isLoading} = useRequest();
-
+  const {sendRequest: fetchMeals, isLoading, error} = useRequest();
   useEffect(() => {
     fetchMeals(
       {
-        url: 'https://react-http-22e9d-default-rtdb.firebaseio.com/meals.json'
+        url: 'https://react-http-22e9d-default-rtdb.firebaseio.com/meals'
       }, getMeals);
   }, [fetchMeals, getMeals]);
+
+  if(isLoading) {
+    return (
+      <section className={styles.mealsLoading}>
+        Loading...
+      </section>
+    )
+  }
+
+  if(error) {
+    return (
+      <section className={styles.mealsError}>
+        <p>{error}</p>
+      </section>
+    )
+  }
 
   const mealsList = meals.map(meal => {
     return ( 
@@ -40,13 +54,11 @@ const AvailableMeals = props => {
   return (
     <section className={styles.meals}>
       <Card>
-        {
-          !isLoading && meals.length > 0 &&
+        {meals.length > 0 && !error &&
           <ul>
             {mealsList}
           </ul>
         }
-        { isLoading && <p>Loading ...</p>}
       </Card>
     </section>
   )

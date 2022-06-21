@@ -20,7 +20,7 @@ const useRequest = () => {
       applyData(data);
 
     }catch(err) {
-      setError(err);
+      setError(err.message);
     }
     setIsLoading(false);
   }, []);
