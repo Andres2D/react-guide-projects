@@ -4,10 +4,13 @@ import styles from './Cart.module.css';
 import CartContext from '../../store/cart-context';
 import CartItem from './CartItem';
 import Checkout from './Checkout';
+import useRequest from '../../hooks/use-request';
 
 const Cart = props => {
 
   const [isCheckout, setIsCheckout] = useState(false);
+  
+  const { sendRequest: postOrder } = useRequest()
 
   const cartCtx = useContext(CartContext);
   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
@@ -23,6 +26,21 @@ const Cart = props => {
 
   const orderHandler = () => {
     setIsCheckout(true);
+  }
+
+  const submitOrderHandler = async(userData) => {
+    console.log(userData);
+    postOrder({
+      url: 'https://react-http-22e9d-default-rtdb.firebaseio.com/orders.json',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        user: userData,
+        orderItems: cartCtx.items
+      })
+    }, () => {})
   }
 
   const cartItems = 
@@ -57,7 +75,7 @@ const Cart = props => {
         <span>Total Amount</span>
         <span>{totalAmount}</span>
       </div>
-      { isCheckout && <Checkout onCancel={props.onToggleModal} /> }
+      { isCheckout && <Checkout onConfirm={submitOrderHandler} onCancel={props.onToggleModal} /> }
       { !isCheckout && modalActions }
     </Modal>
   )

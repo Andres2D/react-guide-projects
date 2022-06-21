@@ -9,14 +9,19 @@ const useRequest = () => {
     setError(null);
 
     try {
-      const {url} = requestConfig;
-      const response = await fetch(url);
+      const {url, method, headers, body} = requestConfig;
+      const response = await fetch(url,{
+        method: method ? method : 'GET',
+        headers: headers ? headers : {},
+        body: body ? JSON.stringify(body) : null
+      });
 
       if(!response.ok) {
         throw new Error('Something went wrong!');
       }
 
       const data = await response.json();
+      console.log(data);
       applyData(data);
 
     }catch(err) {
