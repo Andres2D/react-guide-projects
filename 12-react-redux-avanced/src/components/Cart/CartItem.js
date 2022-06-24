@@ -6,13 +6,13 @@ const CartItem = (props) => {
 
   const dispatch = useDispatch();
 
-  const { title, quantity, totalPrice, price } = props.item;
+  const { title, quantity, totalPrice, price, id } = props.item;
   const addItemHandler = () => {
     dispatch(cartActions.addItem(props.item));
   };
   
   const removeItemHandler = () => {
-    dispatch(cartActions.removeItem(props.item));
+    dispatch(cartActions.removeItem(id));
   };
 
   return (
