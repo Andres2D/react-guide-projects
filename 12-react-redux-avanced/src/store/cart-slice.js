@@ -1,9 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  items: [
-    { id:'12a', title: 'Test Item', quantity: 3, total: 18, price: 6 }
-  ]
+  items: [],
+  totalQuantity: 0
 };
 
 const cartSlice = createSlice({
@@ -12,27 +11,26 @@ const cartSlice = createSlice({
   reducers: {
     addItem(state, action) {
       const newItem = action.payload;
+
+      console.log(newItem);
       
       if(!newItem) {
         return;
       }
 
-      const newItemIndex = state.items.findIndex((item) => item.id === newItem.id);
-      if(newItemIndex !== -1) {
-        const existingItem = state.items[newItemIndex];
-        const updatedItem = {
-          ...existingItem,
-          quantity: existingItem.quantity + 1,
-          total: existingItem.total + existingItem.price
-        };
-        state.items[newItemIndex] = updatedItem;
+      const existingItem = state.items.find((item) => item.id === newItem.id);
+      state.totalQuantity++;
+      if(existingItem) {
+        existingItem.quantity = existingItem.quantity + 1;
+        existingItem.totalPrice = existingItem.totalPrice + newItem.price;
       }else {
-        const addItem = {
-          ...newItem,
+        state.items.push({
+          id: newItem.id,
+          price: newItem.price,
           quantity: 1,
-          total: newItem.price
-        };
-        state.items = [...state.items, addItem];
+          totalPrice: newItem.price,
+          title: newItem.title
+        });
       }
     },
     removeItem(state, action) {
@@ -41,24 +39,15 @@ const cartSlice = createSlice({
       if(!deleteItem) {
         return;
       }
-
-      const newItemIndex = state.items.findIndex((item) => item.id === deleteItem.id);
       
-      if(newItemIndex !== -1) {
-        const existingItem = state.items[newItemIndex];
+      const existingItem = state.items.find((item) => item.id === deleteItem.id);
+      state.totalQuantity--;
 
-        if(existingItem.quantity === 1) {
-          state.items = state.items.filter(item => item.id !== deleteItem.id);
-        }else{
-          const updatedItem = {
-            ...existingItem,
-            quantity: existingItem.quantity - 1,
-            total: existingItem.total - existingItem.price
-          };
-          state.items[newItemIndex] = updatedItem;
-        }
-      }else {
-        return;
+      if(existingItem.quantity === 1) {
+        state.items = state.items.filter(item => item.id !== deleteItem.id);
+      } else {
+        existingItem.quantity--;
+        existingItem.totalPrice = existingItem.totalPrice - existingItem.price;
       }
     }
   }

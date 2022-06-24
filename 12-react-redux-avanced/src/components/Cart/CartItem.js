@@ -6,7 +6,7 @@ const CartItem = (props) => {
 
   const dispatch = useDispatch();
 
-  const { title, quantity, total, price } = props.item;
+  const { title, quantity, totalPrice, price } = props.item;
   const addItemHandler = () => {
     dispatch(cartActions.addItem(props.item));
   };
@@ -20,7 +20,7 @@ const CartItem = (props) => {
       <header>
         <h3>{title}</h3>
         <div className={classes.price}>
-          ${total.toFixed(2)}{' '}
+          ${totalPrice.toFixed(2)}{' '}
           <span className={classes.itemprice}>(${price.toFixed(2)}/item)</span>
         </div>
       </header>
