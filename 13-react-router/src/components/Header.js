@@ -7,10 +7,14 @@ const Header = () => {
       <nav>
         <ul>
           <li>
-            <NavLink activeClassName={styles.active} to='/welcome'>Welcome</NavLink>
+            <NavLink activeClassName={styles.active} to='/welcome'>
+              Welcome
+            </NavLink>
           </li>
           <li>
-            <NavLink activeClassName={styles.active} to='/products'>Products</NavLink>
+            <NavLink activeClassName={styles.active} to='/products'>
+              Products
+            </NavLink>
           </li>
         </ul>
       </nav>
