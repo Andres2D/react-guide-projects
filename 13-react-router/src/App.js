@@ -1,4 +1,4 @@
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Routes, Redirect } from 'react-router-dom';
 import Welcome from './pages/Welcome';
 import Products from './pages/Products';
 import Header from './components/Header';
@@ -9,23 +9,16 @@ const App = () => {
     <div>
       <Header />
       <main>
-        <Switch>
+        {/* <Switch> --> react-route-dom --> v5 */ }
+        <Routes> 
           <Route path='/' exact>
-            <Redirect to='/welcome' />
+            {/* <Redirect to='/welcome' /> */}
           </Route>
-          <Route 
-            path='/welcome'>
-              <Welcome />
-          </Route>
-          <Route 
-            path='/products' exact>
-              <Products />
-          </Route>
-          <Route
-            path='/products/:productId'>
-              <ProductDetail />
-          </Route>
-        </Switch>
+          <Route path='/welcome' element={<Welcome />} />
+          <Route path='/products' exact element={<Products />} />
+          <Route path='/products/:productId' element={<ProductDetail />} />
+        </Routes>
+        {/* </Switch> */}
       </main>
     </div>
   );
