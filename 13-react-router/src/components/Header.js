@@ -7,13 +7,13 @@ const Header = () => {
       <nav>
         <ul>
           <li>
-            {/* activeClassName={styles.active} */}
-            <NavLink  to='/welcome'>
+            {/* activeClassName={styles.active} --> reac-router-dom --> v5 */}
+            <NavLink className={(navData) => navData.isActive ? styles.active : ''} to='/welcome'>
               Welcome
             </NavLink>
           </li>
           <li>
-            <NavLink to='/products'>
+            <NavLink className={(navData) => navData.isActive ? styles.active : ''} to='/products'>
               Products
             </NavLink>
           </li>

@@ -15,7 +15,7 @@ const App = () => {
             {/* <Redirect to='/welcome' /> */}
           </Route>
           <Route path='/welcome' element={<Welcome />} />
-          <Route path='/products' exact element={<Products />} />
+          <Route path='/products' element={<Products />} />
           <Route path='/products/:productId' element={<ProductDetail />} />
         </Routes>
         {/* </Switch> */}
