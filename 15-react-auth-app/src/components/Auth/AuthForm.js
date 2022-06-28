@@ -6,6 +6,7 @@ const AuthForm = () => {
   const emailInputRef = useRef();
   const passwrodInputRef = useRef();
   const [isLogin, setIsLogin] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
@@ -18,31 +19,42 @@ const AuthForm = () => {
     const enteredPassword = passwrodInputRef.current.value;
 
     // optional: Add validation
-
+    setIsLoading(true);
+    let url;
     if(isLogin) {
+      url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAERPJ0M2CWvoedUMBGPTXJ-4mGWVVo0m4';
 
     } else {
-      fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAERPJ0M2CWvoedUMBGPTXJ-4mGWVVo0m4',
-      {
-        method: 'POST',
-        body: JSON.stringify({
-          email: enteredEmail,
-          password: enteredPassword,
-          returnSecureToken: true
-        }),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(res => {
-        if(res.ok) {
-          // ...
-        }else {
-          return res.json().then(data => {
-            // show error modal
-          });
-        }
-      });
+      url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAERPJ0M2CWvoedUMBGPTXJ-4mGWVVo0m4';
     }
+    fetch(url,
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        email: enteredEmail,
+        password: enteredPassword,
+        returnSecureToken: true
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res => {
+      setIsLoading(false);
+      if(res.ok) {
+        return res.json();
+      }else {
+        return res.json().then(data => {
+          let errorMessage = 'Authenctication failed!';
+          throw new Error(errorMessage);
+        });
+      }
+    })
+    .then(data => {
+      console.log(data);
+    })
+    .catch((err) => {
+      alert(err);
+    });
   };
 
   return (
@@ -58,7 +70,8 @@ const AuthForm = () => {
           <input type='password' id='password' required ref={passwrodInputRef} />
         </div>
         <div className={classes.actions}>
-          <button>{isLogin ? 'Login' : 'Create Account'}</button>
+          {!isLoading && <button>{isLogin ? 'Login' : 'Create Account'}</button>}
+          {isLoading && <p>Sending request...</p>}
           <button
             type='button'
             className={classes.toggle}
