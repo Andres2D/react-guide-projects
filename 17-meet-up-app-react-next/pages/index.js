@@ -16,7 +16,7 @@ const DUMMY_MEETUPS = [
     description: 'This is a second meetup'
   },
   {
-    id: 'm1',
+    id: 'm3',
     title: 'A Third Meetup',
     image: 'https://thumbs.dreamstime.com/b/shanghai-morning-city-landscape-empty-asphalt-road-shanghai-morning-city-landscape-asphalt-road-155904083.jpg',
     address: 'Shangai 1334543',
