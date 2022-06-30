@@ -22,3 +22,19 @@ class Product extends Component {
   }
 }
 ```
+
+## Fix next js babel errors
+in .eslintrc.json file
+```
+{
+  "extends": ["next/babel","next/core-web-vitals"]
+}
+```
+
+Create .babelrc file and add
+```
+{
+  "presets": ["next/babel"],
+  "plugins": []
+}
+```
