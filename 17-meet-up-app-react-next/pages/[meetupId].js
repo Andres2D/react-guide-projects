@@ -1,53 +1,50 @@
+import { MongoClient, ObjectId } from 'mongodb';
 import MeetupDetail from "../components/meetups/MeetupDetail";
 
-const MeetupDetails = () => {
+const MeetupDetails = props => {
   return (
     <MeetupDetail
-      image='https://thumbs.dreamstime.com/b/shanghai-morning-city-landscape-empty-asphalt-road-shanghai-morning-city-landscape-asphalt-road-155904083.jpg'
-      title='A First Meetup'
-      address='Some Street 5, Some City'
-      description='The meetup description'
+      image={props.meetup.image}
+      title={props.meetup.title}
+      address={props.meetup.address}
+      description={props.meetup.description}
     />
   );
 };
 
 export const getStaticPaths = async() => {
+  const client = await MongoClient.connect(process.env.MONGODB_CNN);
+  const db = client.db();
+
+  const meetupsCollection = db.collection('meetups');
+  const meetups = await meetupsCollection.find({}, {_id: 1}).toArray();
+
+  client.close();
+
   return {
     fallback: false,
-    paths: [
-      {
-        params: {
-          meetupId: 'm1'
-        },
-      },
-      {
-        params: {
-          meetupId: 'm2'
-        },
-      }, 
-      {
-        params: {
-          meetupId: 'm3'
-        }
-      }
-    ]
+    paths: meetups.map(meetup => ({params: {meetupId: meetup._id.toString()}}))
   }
 };
 
 export const getStaticProps = async(context) => {
   // fetch data dor a single meetup
-
   const meetupId = context.params.meetupId;
-  console.log(meetupId);
+  const client = await MongoClient.connect(process.env.MONGODB_CNN);
+  const db = client.db();
+
+  const meetupsCollection = db.collection('meetups');
+  const meetupRes = await meetupsCollection.findOne({_id: ObjectId(meetupId)});
+  client.close();
 
   return {
     props: {
       meetup: {
-        id: meetupId,
-        image: 'https://thumbs.dreamstime.com/b/shanghai-morning-city-landscape-empty-asphalt-road-shanghai-morning-city-landscape-asphalt-road-155904083.jpg',
-        title: 'A First Meetup',
-        address: 'Some Street 5, Some City',
-        description: 'The meetup description'
+        id: meetupRes._id.toString(),
+        title: meetupRes.title,
+        address: meetupRes.address,
+        image: meetupRes.image,
+        description: meetupRes.description
       }
     }
   }
