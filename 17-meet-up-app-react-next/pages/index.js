@@ -28,12 +28,27 @@ const HomePage = props => {
   return <MeetupList meetups={props.meetups} /> 
 };
 
+// Don't run durong build proccess, but in server after every deployment
+// export const getServerSideProps = async(context) => {
+
+//   const req = context.req;
+//   const res = context.res;
+//   // fecth data from API
+//   return {
+//     props: {
+//       meetups: DUMMY_MEETUPS
+//     },
+//   };
+// };
+
+// Pregenerated during tht build proccess
 export const getStaticProps = async() => {
   // fetch data from API
   return {
     props: {
       meetups: DUMMY_MEETUPS
-    }
+    },
+    revalidate: 10 // incremental static generation ---> every 10 seconds, data never older of 10 seconds
   };
 };
 
