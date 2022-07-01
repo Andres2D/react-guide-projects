@@ -1,8 +1,21 @@
+
+import Head from 'next/head'; 
 import { MongoClient } from 'mongodb';
 import MeetupList from '../components/meetups/MeetupList';
 
 const HomePage = props => {
-  return <MeetupList meetups={props.meetups} /> 
+  return (
+    <>
+      <Head>
+        <title>React Meetups</title>
+        <meta 
+          name="description" 
+          content="Browse a huge lost of highly active React Meetups!"
+        ></meta>
+      </Head>
+      <MeetupList meetups={props.meetups} /> 
+    </>
+  )
 };
 
 // Don't run durong build proccess, but in server after every deployment
