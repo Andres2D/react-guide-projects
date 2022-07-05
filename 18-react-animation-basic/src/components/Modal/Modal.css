@@ -21,6 +21,22 @@
   animation: closeModal 1s ease-out forwards;
 }
 
+.fade-slice-enter {
+
+}
+
+.fade-slice-enter-active {
+  animation: openModal 400ms ease-out forwards;
+}
+
+.fade-slice-exit {
+  
+}
+
+.fade-slice-exit-active {
+  animation: closeModal 1s ease-out forwards;
+}
+
 @keyframes openModal {
   0% {
     opacity: 0;
