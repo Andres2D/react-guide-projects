@@ -2,7 +2,7 @@ import { initStore } from './store';
 
 const configureStore = () => {
   const actions = {
-    TOOGLE_FAV: (curState, productId) => {
+    TOGGLE_FAV: (curState, productId) => {
       const prodIndex = curState.products.findIndex(
         p => p.id === productId
       );
