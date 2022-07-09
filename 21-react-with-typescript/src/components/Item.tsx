@@ -1,6 +1,8 @@
+import styles from './Item.module.css';
+
 const Item: React.FC<{text: string}> = ({text}) => {
   return (
-    <li>{text}</li>
+    <li className={styles.item}>{text}</li>
   )
 };
 
