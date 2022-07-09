@@ -12,6 +12,7 @@ const NewTodo: React.FC<{onAddTodo: (text: string) => void}> = (props) => {
       // throw error
       return;
     }
+    todoTextInputRef.current!.value = '';
     props.onAddTodo(enteredText);
   }
 

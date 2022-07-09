@@ -3,12 +3,17 @@ import Todo from '../models/todo';
 import Item from "./Item";
 import styles from './Todos.module.css';
 
-const Todos: React.FC<{ items: Todo[] }> = ({items}) => {
+const Todos: React.FC<{ items: Todo[], onRemoveItem: (id: string) => void }> = ({items, onRemoveItem}) => {
+
+  const removeItemHandler = (id: string) => {
+    onRemoveItem(id);
+  };
+
   return (
     <ul className={styles.todos}>
       {
         items.map(({text, id}) => (
-          <Item key={id} text={text} />
+          <Item onClickItem={removeItemHandler} id={id} key={id} text={text} />
         ))
       }
     </ul>
