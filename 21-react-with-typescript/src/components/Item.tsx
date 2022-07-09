@@ -1,13 +1,9 @@
 import styles from './Item.module.css';
 
-const Item: React.FC<{id: string, text: string, onClickItem: (id: string) => void}> = ({id, text, onClickItem }) => {
-
-  const clickHandler = (): void => {
-    onClickItem(id); 
-  }
+const Item: React.FC<{text: string, onClickItem: () => void}> = ({text, onClickItem }) => {
 
   return (
-    <li className={styles.item} onClick={clickHandler}>{text}</li>
+    <li className={styles.item} onClick={onClickItem}>{text}</li>
   )
 };
 
