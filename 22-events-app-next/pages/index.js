@@ -1,7 +1,11 @@
+import { getFeaturedEvents } from '../dummy_data';
+
 const MainPage = () => {
   return (
     <div>
-      <h1>The Main Page</h1>
+      <ul>
+        
+      </ul>
     </div>
   )
 };
