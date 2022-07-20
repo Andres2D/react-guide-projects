@@ -10,7 +10,7 @@ const EventsSearch = props => {
   const submitHandler = event => {
     event.preventDefault();
     const year = yearIR.current.value;
-    const month = yearIR.current.value;
+    const month = monthIR.current.value;
     props.onSearch({year, month});
   };
 
