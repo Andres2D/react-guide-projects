@@ -11,6 +11,7 @@ const EventDetailPage = () => {
   const event = getEventById(eventId);
 
   if(!event) {
+    
     return (
       <ErrorAlert>
         <p>No event found!</p>
