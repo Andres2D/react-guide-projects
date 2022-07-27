@@ -29,4 +29,27 @@ export const getStaticProps = async(context) => {
   };
 };
 
+export const getStaticPaths = async() => {
+  return {
+    paths: [
+      {
+        params: {
+          pId: 'p1'
+        }
+      },
+      {
+        params: {
+          pId: 'p2'
+        }
+      },
+      {
+        params: {
+          pId: 'p3'
+        }
+      }
+    ],
+    fallback: false
+  };
+};
+
 export default ProductDetailPage;
