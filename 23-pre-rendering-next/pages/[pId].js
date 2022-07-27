@@ -5,6 +5,10 @@ const ProductDetailPage = props => {
 
   const { loadedProduct } = props;
 
+  if(!loadedProduct) {
+    return <p>Loading...</p>
+  }
+
   return (
     <>
       <h1>Title: {loadedProduct.title}</h1>
@@ -36,19 +40,9 @@ export const getStaticPaths = async() => {
         params: {
           pId: 'p1'
         }
-      },
-      {
-        params: {
-          pId: 'p2'
-        }
-      },
-      {
-        params: {
-          pId: 'p3'
-        }
       }
     ],
-    fallback: false
+    fallback: true // false or 'blocking' to avoid the avoid fallback in the component
   };
 };
 

@@ -14,7 +14,7 @@ const HomePage = props => {
 }
 
 // Server side code
-export const getStaticProps = async (context) => {
+export const getStaticProps = async () => {
   console.log('Regenerating ...');
   // process.cwd() --> get current working directory
   const filepath = path.join(process.cwd(), 'data', 'dummy-backend.json');
