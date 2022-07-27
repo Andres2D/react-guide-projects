@@ -8,7 +8,7 @@ const HomePage = props => {
 
   return (
     <ul>  
-      {products.map(product => <li key={product.id}><Link href={`/${product.id}`}>{product.title}</Link></li>)}
+      {products.map(product => <li key={product.id}><Link href={`/products/${product.id}`}>{product.title}</Link></li>)}
     </ul>
   )
 }
