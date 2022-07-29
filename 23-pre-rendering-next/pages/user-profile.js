@@ -6,7 +6,6 @@ export default UserProfilePage;
 
 export const getServerSideProps = async(context) => {
   const { params, req, res } = context;
-  console.log(req, res);
   
   return {
     props: {
