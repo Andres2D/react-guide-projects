@@ -1,31 +1,28 @@
 import { useEffect, useState } from 'react';
+import useSWR from 'swr';
 
 const LastSalesPage = () => {
 
   const [sales, setSales] = useState();
-  const [isLoading, setIsLoading] = useState(false);
+  const { data, error } = useSWR('https://react-http-22e9d-default-rtdb.firebaseio.com/sales.json',
+   (url) => fetch(url).then(res => res.json()));
 
   useEffect(() => {
-    setIsLoading(true);
-    fetch('https://react-http-22e9d-default-rtdb.firebaseio.com/sales.json')
-      .then((response) => response.json())
-      .then((data) => {
-        const transformedSales = [];
+    if(data) {
+      const transformedSales = [];
+      for (const key in data) {
+        transformedSales.push({id: key, userName: data[key].userName, value: data[key].value});
+      }
+      setSales(transformedSales);
+    }
+  }, [data]);
 
-        for (const key in data) {
-          transformedSales.push({id: key, userName: data[key].userName, value: data[key].value});
-        }
-        setSales(transformedSales);
-        setIsLoading(false);
-      });
-  }, []);
-
-  if(isLoading) {
-    return <p>Loading...</p>;
+  if(error) {
+    return <p>Failed to load.</p>;
   }
   
-  if(!sales) {
-    return <p>No data yet!</p>
+  if(!data || !sales) {
+    return <p>Loading...</p>;
   }
 
   return (
@@ -38,3 +35,4 @@ const LastSalesPage = () => {
 };
 
 export default LastSalesPage;
+// useSWR(<request-url>, (url) => fetch(url).then(res => res.json()))
