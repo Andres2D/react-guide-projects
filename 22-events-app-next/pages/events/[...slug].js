@@ -5,6 +5,7 @@ import EventList from '../../components/events/EventList';
 import ResultsTitle from '../../components/events/ResultsTitle';
 import Button from '../../components/ui/Button';
 import ErrorAlert from '../../components/ui/error-alert';
+import Head from 'next/head';
 // import { getFilteredEvents } from '../../helpers/api-util';
 
 const FilteredEventsPage = () => {
@@ -76,6 +77,10 @@ const FilteredEventsPage = () => {
 
   return (
     <div>
+      <Head>
+        <title>Filtered events</title>
+        <meta name='description' content={`All events for ${year}/${month}`} />
+      </Head>
       <ResultsTitle date={date} />
       <EventList items={eventsFiltered} />
     </div>
