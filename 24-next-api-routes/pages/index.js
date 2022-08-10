@@ -7,12 +7,16 @@ const HomePage = () => {
 
   const submitHandler = event => {
     event.preventDefault();
-    const email = emailInput.current.value;
-    const feedback = feedbackInput.current.value;
     console.log({
       emailInput: emailInput.current.value,
       feedbackInput: feedbackInput.current.value,
     });
+
+    const email = emailInput.current.value;
+    const feedback = feedbackInput.current.value;
+
+    fetch();
+
   };
 
   return (
