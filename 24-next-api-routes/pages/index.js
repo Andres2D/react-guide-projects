@@ -15,8 +15,14 @@ const HomePage = () => {
     const email = emailInput.current.value;
     const feedback = feedbackInput.current.value;
 
-    fetch();
-
+    fetch('/api/feedback', {
+      method: 'POST',
+      body: JSON.stringify({email, feedback}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(response => response.json())
+    .then((data) => console.log(data));
   };
 
   return (
