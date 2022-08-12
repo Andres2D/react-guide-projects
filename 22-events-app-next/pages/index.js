@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import EventList from '../components/events/EventList';
+import NewsletterRegistration from '../components/input/NewsletterRegistration';
 import { getFeaturedEvents } from '../helpers/api-util';
 
 const MainPage = props => {
@@ -9,6 +10,7 @@ const MainPage = props => {
         <title>NextJS Events</title>
         <meta name='description' content='Find a lot of great event to allow you to evolve...' />
       </Head>
+      <NewsletterRegistration />
       <EventList items={props.events} />
     </div>
   )

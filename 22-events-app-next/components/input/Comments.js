@@ -1,8 +1,7 @@
 import { useState } from 'react';
-
-import CommentList from './comment-list';
-import NewComment from './new-comment';
-import classes from './comments.module.css';
+import CommentList from './CommentList';
+import NewComment from './NewComment';
+import classes from './Comments.module.css';
 
 const Comments = (props) => {
   const { eventId } = props;

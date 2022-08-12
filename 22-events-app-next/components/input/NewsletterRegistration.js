@@ -1,4 +1,4 @@
-import classes from './newsletter-registration.module.css';
+import classes from './NewsletterRegistration.module.css';
 
 const NewsletterRegistration = () => {
   const registrationHandler = (event) => {
