@@ -1,10 +1,13 @@
-const handler = (req, res) => {
+import { MongoClient } from 'mongodb';
+
+const handler = async(req, res) => {
   const { id } = req.query;
-  console.log('Query: ', id);
 
   if(!id) {
     return req.status(400).json({ message: 'Bad request' });
   }
+
+  const client = await MongoClient.connect(process.env.MONGO_CONN);
 
   if(req.method === 'POST') {
     const { email, name, comment } = req.body;
@@ -17,17 +20,23 @@ const handler = (req, res) => {
       comment.trim() === ''
     ) {
       res.status(400).json({ message: 'Bad request '});
+      client.close();
       return;
     }
       
-    const newComment = { 
-      id: new Date().toISOString(),
+    const newComment = {
       email, 
       name, 
-      comment 
+      comment,
+      eventId: id
     }
-    console.log(newComment);
+
+    const db = client.db();
+    const result = await db.collection('comments').insertOne(newComment);
+    newComment.id = result.insertedId;
+
     res.status(201).json({ message: 'comment saved successfully', comment: newComment });
+    client.close();
     return;
   } 
   
@@ -47,8 +56,11 @@ const handler = (req, res) => {
       }
     ];
     res.status(200).json({comments: mockComments});
+    client.close();
     return;
   }
+
+  client.close();
   res.status(400).json({ message: 'Bad request '});
 };
 
