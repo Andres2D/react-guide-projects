@@ -8,9 +8,30 @@ const handler = (req, res) => {
 
   if(req.method === 'POST') {
     const { email, name, comment } = req.body;
-    console.log({ email, name, comment });
-    res.status(201).json({ message: 'comment saved successfully' });
-  } else {
+
+    if(
+      !email.includes('@') ||
+      !name ||
+      name.trim() === '' || 
+      !comment ||
+      comment.trim() === ''
+    ) {
+      res.status(400).json({ message: 'Bad request '});
+      return;
+    }
+      
+    const newComment = { 
+      id: new Date().toISOString(),
+      email, 
+      name, 
+      comment 
+    }
+    console.log(newComment);
+    res.status(201).json({ message: 'comment saved successfully', comment: newComment });
+    return;
+  } 
+  
+  if(req.method === 'GET'){
     const mockComments = [
       {
         id: '1',
@@ -25,8 +46,10 @@ const handler = (req, res) => {
         comment: 'My comment is amazing 2!'
       }
     ];
-    res.status(200).json({mockComments})
+    res.status(200).json({comments: mockComments});
+    return;
   }
+  res.status(400).json({ message: 'Bad request '});
 };
 
 export default handler;
