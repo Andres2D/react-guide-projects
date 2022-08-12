@@ -9,11 +9,26 @@ const Comments = (props) => {
   const [showComments, setShowComments] = useState(false);
 
   const toggleCommentsHandler = () => {
+    if(!showComments) {
+      fetch(`/api/comments/${eventId}`)
+      .then(res => res.json())
+      .then(data => console.log(data));
+    }
     setShowComments((prevStatus) => !prevStatus);
   }
 
-  const addCommentHandler = (commentData) => {
+  const addCommentHandler = ({email, name, text}) => {
     // send data to API
+    console.log(email, name, text);
+    fetch(`/api/comments/${eventId}`, {
+      method: 'POST',
+      body: JSON.stringify({email, name, comment: text}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(res => res.json())
+    .then(data => console.log(data));
   }
 
   return (
