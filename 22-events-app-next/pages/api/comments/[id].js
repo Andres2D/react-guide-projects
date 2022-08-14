@@ -41,21 +41,12 @@ const handler = async(req, res) => {
   } 
   
   if(req.method === 'GET'){
-    const mockComments = [
-      {
-        id: '1',
-        email: 'maximilian@mail.com',
-        name: 'Maximilian',
-        comment: 'My comment is amazing!'
-      },
-      {
-        id: '2',
-        email: 'maximilian@mail.com',
-        name: 'Maximilian 2',
-        comment: 'My comment is amazing 2!'
-      }
-    ];
-    res.status(200).json({comments: mockComments});
+    const db = client.db();
+    const comments = await db.collection('comments')
+      .find({eventId: id})
+      .sort({_id: -1})
+      .toArray();
+    res.status(200).json({comments});
     client.close();
     return;
   }
