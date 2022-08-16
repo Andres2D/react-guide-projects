@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import CommentList from './CommentList';
 import NewComment from './NewComment';
+import NotificationContext from '../../store/notification-context';
 import classes from './Comments.module.css';
 
 const Comments = (props) => {
@@ -8,24 +9,40 @@ const Comments = (props) => {
 
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState([]);
+  const notificationCtx = useContext(NotificationContext);
 
   useEffect(() => {
     if(showComments) {
+
+      notificationCtx.showNotification({
+        title: 'Loading comments...',
+        message: '',
+        status: 'pending'
+      });
+
       fetch(`/api/comments/${eventId}`)
       .then(res => res.json())
-      .then(data => setComments(data.comments));
+      .then(data => {
+        setComments(data.comments);
+        notificationCtx.hideNotification();
+      });
     }
   
   }, [showComments])
   
-
   const toggleCommentsHandler = () => {
     setShowComments((prevStatus) => !prevStatus);
   }
 
   const addCommentHandler = ({email, name, text}) => {
     // send data to API
-    console.log(email, name, text);
+    
+    notificationCtx.showNotification({
+      title: 'Add',
+      message: 'Adding comment...',
+      status: 'pending'
+    });
+
     fetch(`/api/comments/${eventId}`, {
       method: 'POST',
       body: JSON.stringify({email, name, comment: text}),
@@ -34,7 +51,13 @@ const Comments = (props) => {
       }
     })
     .then(res => res.json())
-    .then(data => console.log(data));
+    .then(data => {
+      notificationCtx.showNotification({
+        title: 'Add',
+        message: 'Comment added...',
+        status: 'success'
+      });
+    });
   }
 
   return (
