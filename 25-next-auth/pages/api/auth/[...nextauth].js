@@ -11,8 +11,10 @@ export default NexAuth({
     Credentials({
       async authorize(credentials) {
         const client = await connectToDatabase();
-        
-        const usersCollection = client.db.collections('users');
+        const db = client.db();
+
+        const usersCollection = db.collection('users');
+        console.log(usersCollection);
         const user = await usersCollection.findOne({email: credentials.email});
         
         if(!user) {
